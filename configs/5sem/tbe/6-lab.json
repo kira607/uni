@@ -1,0 +1,24 @@
+{
+    "template_path": "latex-template-v2/",
+    "dir_name": "6_lab",
+    "report_name": "6-lab-Leskin-9892",
+    "dest_path": "5_sem/ТОЭ/",
+
+    "department": "ТОЭ",
+    "label": "ОТЧЁТ\\\\ЛАБОРАТОРНАЯ РАБОТА",
+    "num": 6,
+    "discipline": "ТОЭ",
+    "theme": "ИССЛЕДОВАНИЕ УСТАНОВИВШЕГОСЯ СИНУСОИДАЛЬНОГО РЕЖИМА В ПРОСТЫХ ЦЕПЯХ",
+
+    "partner": null,
+    "teacher": "Езеров К.С.",
+    "year": "2021",
+
+    "chapters": {
+        "1-goal": "\\section*{Цель}",
+        "2.1-research": "\\section*{Исследование установившегося синусоидального режима в $RL$- и $RC$-цепях}",
+        "2.2-research": "\\section*{Исследование установившегося синусоидального режима в $RLC$-цепи}",
+        "3-conclusion": "\\section*{Выводы}\n\nВ ходе выполнения лабораторной работы я",
+        "protocol": "\\section*{Протокол}"
+    }
+}

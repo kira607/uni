@@ -1,0 +1,23 @@
+
+    Шаблон создания картинки
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{photo/photo1}
+	\caption{Подпись}
+	\label{label}
+\end{figure}
+
+    Перенос строк внутри таблиц
+
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+    Нумерация рисунков по номеру главы (e.g. 1.1)
+    (Для отчёта по курсовой)
+
+\renewcommand\thefigure{\arabic{section}.\arabic{figure}}
+
+    Вставка листинга кода с подписью
+
+\lstinputlisting[caption=123]{main.cpp}

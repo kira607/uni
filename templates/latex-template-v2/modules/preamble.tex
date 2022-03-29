@@ -1,0 +1,105 @@
+%%%%%%%%%%%%%%%%%%%%% General stuff %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}  % шаблон для статьи, шрифт 12 пт
+
+\usepackage[warn]{mathtext} % для отображения кириллицы в формулах (НУЖНО загружать ДО fontenc и babel)
+
+\usepackage[utf8]{inputenc}  % использование кодировки Юникод UTF-8
+\usepackage[T1]{fontenc}
+\usepackage[russian]{babel}  % пакет поддержки русского языка
+
+\usepackage{indentfirst}  % отступ первого абзаца
+\setlength{\parindent}{0.75cm}
+
+\usepackage[compact]{titlesec}  % для titlespacing
+% \titlespacing{\заголовок}{слева}{перед}{после}[справа]
+\titlespacing*{\section}{0.75cm}{1em}{0.1em}  % отступ заголовка
+\titlespacing*{\subsection}{0.75cm}{1em}{0.1em}
+
+%%%%%%%%%%%%%%%%%%%%% Pictures %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{graphicx}  % кртинки
+\usepackage{float} % плавающие картинки
+\usepackage{wrapfig}  % Обтекание фигур (таблиц, картинок и прочего)
+\usepackage[labelsep=endash]{caption}  % тире вместо двоеточия в картинках
+\usepackage{subcaption} % place more than 1 figure at a picture
+
+%%%%%%%%%%%%%%%%%%%%% Math symbols %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \DeclareSymbolFont{T2Aletters}{T2A}{cmr}{m}{it} % переопределение шрифта для кириллицы в формулах на курсив
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%% Code %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xcolor}
+\usepackage{listings}  % листинги кода из файлов
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{cpp}
+{
+    backgroundcolor=\color{backcolour},% цвет фона подсветки
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\small\color{codegray},% размер шрифта для номеров строк
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % размер и начертание шрифта для подсветки кода
+    breakatwhitespace=false,           % переносить строки только если есть пробел  
+    breaklines=true,                   % автоматически переносить строки (да\нет)  
+    captionpos=t,                      % позиция заголовка вверху [t] или внизу [b]
+    keepspaces=true,                 
+    numbers=left,                   % где поставить нумерацию строк (слева\справа)            
+    numbersep=5pt,                  % как далеко отстоят номера строк от подсвечиваемого кода           
+    showspaces=false,               % показывать или нет пробелы специальными отступами       
+    showstringspaces=false,         % показывать или нет пробелы в строках
+    showtabs=false,                 % показывать или нет табуляцию в строках        
+    tabsize=2,                      % размер табуляции по умолчанию равен 2 пробелам
+    language=c++,                   % выбор языка для подсветки (здесь это С++)                   
+    stepnumber=1,                   % размер шага между двумя номерами строк
+    frame=false,                    % рисовать рамку вокруг кода
+    escapeinside={\%*}{*)},         % если нужно добавить комментарии в коде
+    extendedchars=\true
+}
+
+\lstdefinelanguage
+[x64]{Assembler}     % add a "x64" dialect of Assembler
+[x86masm]{Assembler} % based on the "x86masm" dialect
+% with these extra keywords:
+{morekeywords={PUSH, POP, LDI, SBI, CBI}} % etc.
+
+\lstdefinestyle{myasm}
+{
+    backgroundcolor=\color{backcolour},% цвет фона подсветки
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\small\color{codegray},% размер шрифта для номеров строк
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % размер и начертание шрифта для подсветки кода
+    breakatwhitespace=false,           % переносить строки только если есть пробел  
+    breaklines=true,                   % автоматически переносить строки (да\нет)  
+    captionpos=t,                      % позиция заголовка вверху [t] или внизу [b]
+    keepspaces=true,                 
+    numbers=left,                   % где поставить нумерацию строк (слева\справа)            
+    numbersep=5pt,                  % как далеко отстоят номера строк от подсвечиваемого кода           
+    showspaces=false,               % показывать или нет пробелы специальными отступами       
+    showstringspaces=false,         % показывать или нет пробелы в строках
+    showtabs=false,                 % показывать или нет табуляцию в строках        
+    tabsize=2,                      % размер табуляции по умолчанию равен 2 пробелам
+    language=[x64]Assembler,             % выбор языка для подсветки             
+    stepnumber=1,                   % размер шага между двумя номерами строк
+    frame=false,                    % рисовать рамку вокруг кода
+    escapeinside={\%*}{*)},         % если нужно добавить комментарии в коде
+    extendedchars=\true
+}
+
+\lstset{style=myasm}
+
+%%%%%%%%%%%%%%%%%%%%% Other %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{comment}
+
+%\usepackage[showframe=true]{geometry} % shows the borders of the pages content
+\usepackage{changepage} % Для смещения таблиц влево

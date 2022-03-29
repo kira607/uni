@@ -1,0 +1,25 @@
+{
+    "template_path": "latex-template-v2/",
+    "dir_name": "4_lab",
+    "report_name": "4-lab-Leskin_Stepanov-9892",
+    "dest_path": "5_sem/Метрология/",
+
+    "department": "ИИСТ",
+    "label": "ОТЧЁТ\\\\ЛАБОРАТОРНАЯ РАБОТА",
+    "num": 4,
+    "discipline": "Метрология",
+    "theme": "ЭЛЕКТРОННО-ЛУЧЕВОЙ ОСЦИЛЛОГРАФ",
+
+    "partner": "Степанов В.И.",
+    "teacher": "Варшавский И.Е.",
+    "year": "2021",
+
+    "chapters": {
+        "1-goal": "\\section*{Цель}",
+        "2-algo": "\\section*{Алгоритм выполнения измерений}",
+        "3-formulas": "\\section*{Основные расчётные формулы}",
+        "4-main": "\\section*{Обработка результатов измерений}",
+        "5-conclusion": "\\section*{Выводы}\n\nВ ходе выполнения лабораторной работы мы",
+        "protocol": "\\section*{Протокол}"
+    }
+}

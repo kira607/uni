@@ -1,0 +1,24 @@
+{
+    "template_path": "latex-template-v2/",
+    "dir_name": "1_lab",
+    "report_name": "1-lab-Leskin-9892",
+    "dest_path": "5_sem/Алгоритмы и структуры данных/",
+
+    "department": "САПР",
+    "label": "ОТЧЁТ\\\\ЛАБОРАТОРНАЯ РАБОТА",
+    "num": 1,
+    "discipline": "Алгоритмы и структуры данных",
+    "theme": "Списки (вариант 7)",
+
+    "partner": null,
+    "teacher": "Тутуева А.В.",
+    "year": "2021",
+
+    "chapters": {
+        "1-task": "\\section*{Задача}",
+        "2-complexity": "\\section*{Оценка сложности}",
+        "3-tests": "\\section*{Тесты}",
+        "4-examples": "\\section*{Пример работы}",
+        "5-listing": "\\section*{Листинг}"
+    }
+}
