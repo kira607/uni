@@ -1,0 +1,44 @@
+# keys: department, label, num (with №), discipline, theme, partners
+\begin{center}
+    \Large{
+        \textbf{МИНОБРНАУКИ РОССИИ}
+        \textbf{Санкт-Петербургский государственный}
+        \textbf{электротехнический университет «ЛЭТИ»}
+        \textbf{им. В.И. Ульянова (Ленина)}
+        \textbf{Кафедра ${department}}
+    }
+\end{center}
+
+\topskip=0pt
+\vspace*{\fill}
+
+\begin{center}
+    \Large{
+        \textbf{
+            ${label}${num}\\
+            % if theme:
+            по дисциплине «${discipline}»\\
+            % endif
+            % if theme:
+            Тема: ${theme}\\
+            % endif
+        }
+    }
+\end{center}
+
+\vspace*{\fill}
+
+\begin{tabular}{lcr}
+    Студент  гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А.  \\\\
+    % for partner in partners:
+                      & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner}   \\\\    
+    % endfor    
+    Преподаватель     & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} \\\\
+\end{tabular}
+
+\begin{center}
+    Санкт-Петербург\\
+    ${year}
+\end{center}
+
+\newpage

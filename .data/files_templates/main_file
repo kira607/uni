@@ -1,0 +1,15 @@
+\input{modules/preamble.tex}
+
+\begin{document}
+
+    \input{modules/title_page.tex}
+
+    % for chapter in chapters:
+    \input{modules/chapters/${chapter}.tex}
+
+    % if newpage:
+    \newpage
+
+    %endif
+    % endfor
+\\end{document}

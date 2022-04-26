@@ -7,6 +7,7 @@ class Logger:
         self._logger = logging.getLogger()
 
     def log(self, message: str):
+        
         self._logger.log(message)
 
     def message(self, message: str):
