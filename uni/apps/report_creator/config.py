@@ -1,8 +1,11 @@
 import datetime
 import json
+import os
+from os.path import abspath, join
 
 from typing import Type
-
+from clikit.ui.components import Question, ChoiceQuestion
+from uni.locations import data_folder
 
 class __MISSING(object):
     def __str__(self):
@@ -30,46 +33,95 @@ class ConfigField:
         self.name = name
         self.type = type_
         self.value: type_ = default if optional else None
-        self.prompt = prompt
+        self._prompt = prompt
         self.optional = optional
         self.default = default
+        self._get = self
+
+    @property
+    def question(self):
+        q = Question(self.prompt, self.default)
+        return q
+
+    @property
+    def prompt(self):
+        prompt = self._prompt
+        if self.optional:
+            prompt += f' [{self.default}]'
+        prompt += ':'
+        return prompt
+
+    def lock(self):
+        self._get = self.value
 
     def __get__(self, obj, objtype=None):
-        return self.value
+        return self._get
 
     def __set__(self, obj, val):
         self.value = val
 
 
 class Config:
-    # teplate config
-    template = ConfigField('template', 'Шаблон отчёта', optional=True, default='latex-template-v2')
-
-    # header
-    department = ConfigField('department', 'Кафедра')
-
-    # main
-    label = ConfigField('label', 'Тип работы', optional=True, default='ОТЧЁТ\\\\ЛАБОРАТОРНАЯ РАБОТА')
+    template = ConfigField('template', 'Шаблон отчёта', optional=True, default='full_template')
+    department = ConfigField('department', 'Кафедра', optional=True, default='САПР')
+    label = ConfigField('label', 'Тип работы', optional=True, default=r'ОТЧЁТ\\ЛАБОРАТОРНАЯ РАБОТА')
     num = ConfigField('num', 'Номер работы', type_=int, optional=True, default=None)
-    discipline = ConfigField('discipline', 'Дисциплина')
-    theme = ConfigField('theme', 'Тема работы')
-
-    # footer
-    partners = ConfigField('partners', 'Партнёры', type_=list)
+    discipline = ConfigField('discipline', 'Дисциплина', optional=True, default=None)
+    theme = ConfigField('theme', 'Тема работы', optional=True, default=None)
+    student = ConfigField('student', '')
+    partners = ConfigField('partners', 'Партнёры', type_=list, optional=True, default=None)
     teacher = ConfigField('teacher', 'Преподаватель Фамилия И.О.')
     year = ConfigField('year', 'Год', optional=True, default=datetime.datetime.now().year)
-
-    # chapters
     chapters = ConfigField('chapters', 'Главы', type_=dict, optional=True, default={})
-
-    # other
     newpage = ConfigField('newpage', 'Новая страница к каждой главе', type_=bool, optional=True, default=True)
 
-    def __init__(self):
-        self.config = None
+    def __init__(self, path: str, name: str):
+        self.path = path
+        self.name = f'{name}.tex'
+        self.locked = False
+        self.sectioning = '\\section'
+        self.d = {}
+
+    @property
+    def template_path(self):
+        return os.path.abspath(os.path.join(data_folder, 'templates', self.template))
+
+    @property
+    def main_page_path(self):
+        return abspath(join(self.path, self.name))
+
+    @property
+    def title_page_path(self):
+        return abspath(join(self.path, 'modules', 'title_page.tex'))
+
+    @property
+    def report_dir(self):
+        return self.path
+    
+    def lock(self):
+        self.d = self.dict()
+        for field in self.fields():
+            if field.name == 'num':
+                field.value = f' №{field.value}'
+            elif field.name == 'student':
+                field.value = 'Студенты' if self.partners.value else 'Студент '
+            field.lock()
+        return self
 
     def fields(self):
-        pass
+        fs = []
+        for n, f in self.__class__.__dict__.items():
+            if isinstance(f, ConfigField):
+                fs.append(f)
+        return fs
+
+    def dict(self):
+        if self.locked:
+            return self.d
+        self.d = {}
+        for f in self.fields():
+            self.d[f.name] = f.value
+        return self.d
 
     def load(self, path):
         try:
@@ -113,6 +165,20 @@ class Config:
             raise MissingError(f'The config missing key: {key}')
         print(value)
         return value
+
+    def mock(self):
+        self.template = 'full_template'
+        self.num = '0'
+        self.discipline = 'Дисциплина'
+        self.theme = 'тема'
+        self.partners = [] # ['Иванов И.И.', 'Петров П.П.']
+        self.teacher = 'Преподаватель'
+        self.chapters = {
+            'task': 'Задача',
+            'solution': 'Решение',
+        }
+        self.newpage = True
+        return self
 
     def _get_sem(self):
         now = datetime.datetime.now()

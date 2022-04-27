@@ -1,4 +1,3 @@
-# keys: department, label, num (with №), discipline, theme, partners
 \begin{center}
     \Large{
         \textbf{МИНОБРНАУКИ РОССИИ}
@@ -15,13 +14,16 @@
 \begin{center}
     \Large{
         \textbf{
-            ${label}${num}\\
-            % if theme:
-            по дисциплине «${discipline}»\\
+            ${label}${num}\\\
+
+            % if discipline:
+            по дисциплине «${discipline}»\\\
             % endif
+
             % if theme:
-            Тема: ${theme}\\
+            Тема: ${theme}\\\
             % endif
+
         }
     }
 \end{center}
@@ -29,15 +31,18 @@
 \vspace*{\fill}
 
 \begin{tabular}{lcr}
-    Студент  гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А.  \\\\
+    ${student} гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А. \\\
+
     % for partner in partners:
-                      & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner}   \\\\    
-    % endfor    
-    Преподаватель     & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} \\\\
+                      & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner} \\ 
+    % endfor
+    Преподаватель     & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} \\\
+
 \end{tabular}
 
 \begin{center}
-    Санкт-Петербург\\
+    Санкт-Петербург\\\
+
     ${year}
 \end{center}
 

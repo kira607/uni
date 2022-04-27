@@ -7,9 +7,9 @@
     % for chapter in chapters:
     \input{modules/chapters/${chapter}.tex}
 
-    % if newpage:
+    % if newpage and loop.index < len(chapters) - 1:
     \newpage
 
     %endif
     % endfor
-\\end{document}
+\end{document}
