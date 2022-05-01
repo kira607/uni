@@ -1,59 +1,105 @@
-class TableCreator:
-    def __init__(self, rows, strip=False, strip_n=0, cols_type='c'):
-        self.strip = strip
-        self.strip_n = strip_n
-        self.rows = rows
-        self.cols_type = cols_type
-        if self.strip:
-            self.strip_rows()
-        self.cols_num = len(rows[0]) if not strip else strip_n
-        self.validate_rows()
+class Cell:
+    def __init__(self, value: str):
+        self.value = str(value)
 
-    def get_table(self):
-        self.validate_rows()
-        cols_string = self.get_cols_string()
+    def render(self) -> str:
+        result = self.value
+        return result
+
+
+class Row:
+    def __init__(self, cols: int):
+        self._cols = cols
+        self._cells = []
+
+    def __iter__(self):
+        return iter(self._cells)
+
+    def __getitem__(self, key):
+        return self._cells[key]
+
+    def set(self, *cells: str):
+        if len(cells) != self._cols:
+            raise ValueError(f'Too {"much" if len(cells) < self._cols else "few"} values for row!')
+        for cell_val in cells:
+            cell = Cell(cell_val)
+            self._cells.append(cell)
+
+    def render(self) -> str:
+        result = ' & '.join(cell.render() for cell in self._cells)
+        result += ' \\\\\n'
+        return result
+
+
+class Header(Row):
+    pass
+
+
+class LatexTable:
+    '''A class for creating a latex table.'''
+
+    def __init__(
+        self, 
+        cols_num: int,
+        cols_type: str = 'c',
+        pos: str = '\\centering',
+        caption: str = None,
+        caption_pos: str = 'top',
+        label: str = None,
+    ) -> None:
+        self.cols_num = cols_num
+        self._header = None
+        self._rows = []
+        self._cols_string = self.get_cols_string(cols_type)
+        self._pos = pos
+        self._caption_pos = caption_pos if caption_pos in ('top', 'bottom') else 'top'
+        self._caption = f'\n    \\caption{{{caption}}}' if caption else ''
+        self._label = f'\n    \\label{{tab:{label}}}' if label else ''
+
+    def set_header(self, *cells) -> None:
+        self.header = Header(self.cols_num)
+        self.header.set(*cells)
+
+    def add_row(self, *cells: str):
+        new_row = Row(self.cols_num)
+        new_row.set(*cells)
+        self._rows.append(new_row)
+
+    def render(self) -> str:
         data = '\\hline'
-        for row in self.rows:
-            data += '\n' + '        ' + ' & '.join(row) + ' \\\\ \n        \\hline'
+        
+        for row in self._rows:
+            data += '\n' + '        ' + row.render() + '        \\hline'
         t = rf'''
 \begin{{table}}[H]
-    \centering
-    \begin{{tabular}}{{{cols_string}}}
+    {self._pos}{self._caption if self._caption_pos == "top" else ""}{self._label}
+    \begin{{tabular}}{{{self._cols_string}}}
         {data}
-    \end{{tabular}}
+    \end{{tabular}}{self._caption if self._caption_pos == "bottom" else ""}
 \end{{table}}
         '''
         return t
 
-    def get_cols_string(self):
-        s = f"|{'|'.join([self.cols_type for _ in range(self.cols_num)])}|"
+    def get_cols_string(self, cols_type: str) -> str:
+        if cols_type not in 'lcr' or len(cols_type) != 1:
+            cols_type = 'c'
+        cols_string = f"|{'|'.join([cols_type for _ in range(self.cols_num)])}|"
+        return cols_string
 
-    def validate_rows(self) -> None:
+    def list_to_rows(self, l: list, n: int = None) -> tuple:
         '''
-        Check if each row has the same number of columns and each item in rows are strings
+        Split one list into a list of rows.
+
+        Example::
+
+            >>> LatexTable(2).list_to_rows([1, 2, 3, 4, 5, 6, 7, 8])
+            ([1, 2], [3, 4], [5, 6], [7, 8])
         '''
-        for i, row in enumerate(self.rows):
-            if len(row) != self.cols_num:
-                raise RuntimeError(f'Row {i} has {len(row)} elements, but number of columns is {self.cols_num}')
-            for index, item in enumerate(row):
-                if not isinstance(item, str):
-                    try:
-                        self.rows[i][index] = str(item)
-                    except Exception:
-                        raise RuntimeError(f'Row {i}, element {index}: Cannot cast item to a string')
-
-    def strip_rows(self):
-        nrows = []
-        to_strip = self.strip_n
-        if len(self.rows) % to_strip != 0:
-            raise RuntimeError(f'Error: {len(self.rows)} % {to_strip} = {len(self.rows) % to_strip}')
-        row = []
-        for i, d in enumerate(self.rows):
-            if i == 0 or i % to_strip == 0:
-                if i != 0:
-                    nrows.append(row)
-                row = []
-            row.append(d)
-
-        self.rows = nrows
-        self.strip = False
+        n = n or self.cols_num
+        if len(l) % n != 0:
+            raise RuntimeError(
+                f'Error: the list contains the number of elements '
+                f'which cannot be stipped into a {n} number of columns. '
+                f'({len(l)} % {n} = {len(l) % n} extra elements)'
+            )
+        return tuple(l[i:j] for i, j in zip(range(0, len(l) + 1, n), range(n, len(l) + 1, n)))

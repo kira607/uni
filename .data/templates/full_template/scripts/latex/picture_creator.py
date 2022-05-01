@@ -5,14 +5,14 @@ class PictureCreator:
         caption='picture',
         label='picture',
         attrs='H',
-        pos='\centering',
-        width='0.7\linewidth',
+        pos='\\centering',
+        width='0.7\\linewidth',
     ) -> str:
         return (
             f'\\begin{{figure}}[{attrs}]\n'
             f'    {pos}\n'
-            f'    \\includegraphics[widht={width}]{{photo/{image}}}\n'
+            f'    \\includegraphics[width={width}]{{photo/{image}}}\n'
             f'    \\caption{{{caption}}}\n'
             f'    \\label{{fig:{label}}}\n'
-            f'\\end{{figure}}'
+            f'\\end{{figure}}\n'
         )

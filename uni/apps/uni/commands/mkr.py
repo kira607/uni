@@ -14,6 +14,7 @@ class MakeReportCommand(Command):
         {dirname=report : report folder name}
         {name=report : report file name}
         {--m|mock : mock creation with default parameters}
+        {--c|config-file= : create report form config file instead of interactive input}
     '''
 
     def handle(self):
@@ -37,6 +38,12 @@ class MakeReportCommand(Command):
         if self.option('mock'):
             return cfg.mock().lock()
 
+        if self.option('config-file'):
+            with open(self.option('config-file'), 'r') as f:
+                data = json.load(f)
+
+        cfg.load(data)
+
         templates = os.listdir(os.path.join(data_folder, 'templates'))
         finished = False
         while not finished:
@@ -46,10 +53,30 @@ class MakeReportCommand(Command):
             cfg.num = self.ask(cfg.num.question)
             cfg.discipline = self.ask(cfg.discipline.question)
             cfg.theme = self.ask(cfg.theme.question)
-            cfg.partners = self.ask(cfg.partners.question)
+
+            partners_num_q = self.create_question('Кол-во партнёров [0]:', default=0)
+            partners_num_q.set_validator(int)
+            partners_num = self.ask(partners_num_q)
+
+            self.line(f'{partners_num}')
+            if partners_num == 0:
+                cfg.partners = []
+
+            for i in range(partners_num):
+                p = self.ask(f'Партнёр #{i+1}:')
+                cfg.partners.value.append(p)
+
             cfg.teacher = self.ask(cfg.teacher.question)
             cfg.year = self.ask(cfg.year.question)
-            cfg.chapters = self.ask(cfg.chapters.question)
+
+            chapter = 'any'
+            while chapter:
+                chapter_file = self.ask('Глава (имя файла) [None]:', default=None)
+                if not chapter_file:
+                    break
+                chapter_name = self.ask(f'Глава (название) [{chapter_file}]:', default=chapter_file)
+                cfg.chapters.value[chapter_file] = chapter_name
+
             cfg.newpage = self.confirm(cfg.newpage.prompt, cfg.newpage.default)
 
             data = json.dumps(cfg.dict(), indent=4, skipkeys=True, ensure_ascii=False)

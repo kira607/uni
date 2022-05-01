@@ -123,47 +123,26 @@ class Config:
             self.d[f.name] = f.value
         return self.d
 
-    def load(self, path):
-        try:
-            with open(path, 'r', encoding='utf-8') as f:
-                content = f.read()
-                self.config = json.loads(content)
-        except Exception as e:
-            print(f'could not load config: {e}')
-            raise
+    def load(self, data: dict):
+        self.template = self.get_value(data, 'template', self.template)
+        self.department = self.get_value(data, 'department', self.department)
+        self.label = self.get_value(data, 'label', self.label)
+        self.num = self.get_value(data, 'num', self.num)
+        self.discipline = self.get_value(data, 'discipline', self.discipline)
+        self.theme = self.get_value(data, 'theme', self.theme)
+        self.student = self.get_value(data, 'student', self.student)
+        self.partners = self.get_value(data, 'partners', self.partners)
+        self.teacher = self.get_value(data, 'teacher', self.teacher)
+        self.year = self.get_value(data, 'year', self.year)
+        self.chapters = self.get_value(data, 'chapters', self.chapters)
+        self.newpage = self.get_value(data, 'newpage', self.newpage)
 
-        self.template = self.get_value('template')
-
-        self.dest_path = self.get_value('dest_path')
-        self.dir_name = self.get_value('dir_name')
-        self.report_name = self.get_value('report_name')
-
-        self.department = self.get_value('department')
-        self.label = self.get_value('label')
-        self.num = self.get_value('num', optional=True, default=None)
-        self.discipline = self.get_value('discipline')
-        self.theme = self.get_value('theme')
-
-        self.partners = self.get_value('partners', optional=True, default=None)
-        self.teacher = self.get_value('teacher')
-        self.year = self.get_value('year')
-
-        self.sectioning = self.get_value('sectioning', optional=True, default='\\section*')
-        self.chapters = self.get_value('chapters', optional=True, default={})
-
-        self.newpage = self.get_value('newpage', optional=True, default=True)
-
-
-    def get_value(self, key, optional=False, default=None):
-        print(f'Key {key}: ', end='')
-        value = self.config.get(key, _MISSING)
+    def get_value(self, data, key, field):
+        value = data.get(key, _MISSING)
         if value == _MISSING:
-            if optional:
-                print(default)
-                return default
-            print(_MISSING)
+            if field.optional:
+                return field.default
             raise MissingError(f'The config missing key: {key}')
-        print(value)
         return value
 
     def mock(self):
