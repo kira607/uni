@@ -1,2 +1,2 @@
-from .table_creator import LatexTable
-from .picture_creator import PictureCreator
+from .table import LatexTable
+from .picture import LatexPicture

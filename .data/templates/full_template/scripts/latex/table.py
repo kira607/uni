@@ -57,8 +57,8 @@ class LatexTable:
         self._label = f'\n    \\label{{tab:{label}}}' if label else ''
 
     def set_header(self, *cells) -> None:
-        self.header = Header(self.cols_num)
-        self.header.set(*cells)
+        self._header = Header(self.cols_num)
+        self._header.set(*cells)
 
     def add_row(self, *cells: str):
         new_row = Row(self.cols_num)
@@ -66,16 +66,20 @@ class LatexTable:
         self._rows.append(new_row)
 
     def render(self) -> str:
+        indent = ' ' * 8
         data = '\\hline'
+
+        if self._header:
+            data += f'\n{indent}{self._header.render()}{indent}\\hline'
         
         for row in self._rows:
-            data += '\n' + '        ' + row.render() + '        \\hline'
+            data += f'\n{indent}{row.render()}{indent}\\hline'
         t = rf'''
 \begin{{table}}[H]
-    {self._pos}{self._caption if self._caption_pos == "top" else ""}{self._label}
+    {self._pos}{self._caption if self._caption_pos == "top" else ""}
     \begin{{tabular}}{{{self._cols_string}}}
         {data}
-    \end{{tabular}}{self._caption if self._caption_pos == "bottom" else ""}
+    \end{{tabular}}{self._caption if self._caption_pos == "bottom" else ""}{self._label}
 \end{{table}}
         '''
         return t
