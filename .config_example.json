@@ -1,0 +1,20 @@
+{
+    "template": "full_template",
+    "department": "САПР",
+    "label": "ОТЧЁТ\\\\ЛАБОРАТОРНАЯ РАБОТА",
+    "num": 1,
+    "discipline": "Дисциплина",
+    "theme": "Тема работы",
+    "student": "",
+    "partners": [
+        "Иванов И.И.",
+        "Петров П.П."
+    ],
+    "teacher": "Перподов П.П.",
+    "year": "2022",
+    "chapters": {
+        "task": "Задание",
+        "solution": "Решение"
+    },
+    "newpage": false
+}

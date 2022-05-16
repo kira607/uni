@@ -15,19 +15,16 @@ class Creator:
         self.write_main_page()
         self.write_title_page()
         self.create_chapters()
+        self.write_config()
 
     def copy_template(self):
         copy_tree(self.config.template_path, self.config.report_dir)
 
     def write_main_page(self):
-        with open(self.config.main_page_path, 'w', encoding='utf-8') as f:
-            tw = self.get_main_page()
-            f.write(tw)
+        self._write(self.config.main_page_path, self.get_main_page())
 
     def write_title_page(self):
-        with open(self.config.title_page_path, 'w', encoding='utf-8') as f:
-            tw = self.get_title_page()
-            f.write(tw)
+        self._write(self.config.title_page_path, self.get_title_page())
 
     def create_chapters(self):
         for i, chapter_item in enumerate(self.config.chapters.items(), 1):
@@ -40,20 +37,16 @@ class Creator:
                 f.write(chapter_content)
 
     def get_main_page(self):
-        path = abspath(join(data_folder, 'files_templates', 'main_file'))
-        t = Template(filename=path)
-        return t.render(**self.config.dict())
+        return self._render_template('main_file')
 
     def get_title_page(self):
-        path = abspath(join(data_folder, 'files_templates', 'title_page'))
-        t = Template(filename=path)
-        return t.render(**self.config.dict())
+        return self._render_template('title_page')
 
     def get_chapter_name(self, i, chapter):
         if chapter.startswith('#'):
             name = f'{i}-{chapter[1:]}'
         elif chapter.startswith('\#'):
-            name = chapter[1:]
+            name = chapter[2:]
         else:
             name = chapter
         return f'{name}.tex'
@@ -64,8 +57,20 @@ class Creator:
         else:
             return f'{self.config.sectioning}{{{content}}}'
 
+    def write_config(self):
+        pass
+
     def _touch(self, file_name: str):
         try:
             utime(file_name, None)
         except OSError:
             open(file_name, 'a').close()
+
+    def _write(self, path, content):
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+    def _render_template(self, name: str):
+        path = abspath(join(data_folder, 'files_templates', name))
+        t = Template(filename=path)
+        return t.render(**self.config.dict())

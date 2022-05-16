@@ -31,21 +31,27 @@ class MakeReportCommand(Command):
         rc.create_report(config)
 
     def make_config(self, path, name):
-        from uni.locations import data_folder
-
         cfg = Config(path, name)
 
         if self.option('mock'):
-            return cfg.mock().lock()
+            cfg.mock()
+        elif self.option('config-file'):
+            self.load_config(cfg)
+        else:
+            self.input_config(cfg)
 
-        if self.option('config-file'):
-            with open(self.option('config-file'), 'r') as f:
-                data = json.load(f)
+        return cfg.lock()
 
-        cfg.load(data)
+    def load_config(self, cfg):
+        with open(self.option('config-file'), 'r') as f:
+            data = json.load(f)
+            cfg.load(data)
 
+    def input_config(self, cfg):
+        from uni.locations import data_folder
         templates = os.listdir(os.path.join(data_folder, 'templates'))
         finished = False
+
         while not finished:
             cfg.template = self.choice(cfg.template.prompt, templates, 0)
             cfg.department = self.ask(cfg.department.question)
@@ -80,6 +86,5 @@ class MakeReportCommand(Command):
             cfg.newpage = self.confirm(cfg.newpage.prompt, cfg.newpage.default)
 
             data = json.dumps(cfg.dict(), indent=4, skipkeys=True, ensure_ascii=False)
-            finished = self.confirm(f'Your input:\n{data}\ncontinue?:')
+            finished = self.confirm(f'Your input:\n{data}\ncontinue?:', default=True)
 
-        return cfg.lock()
