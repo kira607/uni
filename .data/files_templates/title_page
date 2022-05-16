@@ -2,11 +2,11 @@
 
 \begin{center}
     \Large{
-        \textbf{МИНОБРНАУКИ РОССИИ}\\
-        \textbf{Санкт-Петербургский государственный}\\
-        \textbf{электротехнический университет «ЛЭТИ»}\\
-        \textbf{им. В.И. Ульянова (Ленина)}\\
-        \textbf{Кафедра ${department}}\\
+        \textbf{МИНОБРНАУКИ РОССИИ} ${r'\\'}
+        \textbf{Санкт-Петербургский государственный} ${r'\\'}
+        \textbf{электротехнический университет «ЛЭТИ»} ${r'\\'}
+        \textbf{им. В.И. Ульянова (Ленина)} ${r'\\'}
+        \textbf{Кафедра ${department}} ${r'\\'}
     }
 \end{center}
 
@@ -16,16 +16,13 @@
 \begin{center}
     \Large{
         \textbf{
-            ${label}${num}\\\
-
+            ${label}${num} ${r'\\'}
             % if discipline:
-            по дисциплине «${discipline}»\\\
-
+            по дисциплине «${discipline}» ${r'\\'}
             % endif
             % if theme:
-            Тема: ${theme}\\\
+            Тема: ${theme} ${r'\\'}
             % endif
-
         }
     }
 \end{center}
@@ -33,18 +30,16 @@
 \vspace*{\fill}
 
 \begin{tabular}{lcr}
-    ${student} гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А. \\\
-
+    ${student} гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А. ${r'\\\\'}
     % for partner in partners:
-                      & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner} \\\\\
+                      & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner} ${r'\\\\'}
     % endfor
-    Преподаватель     & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} \\\\\
+    Преподаватель     & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} ${r'\\\\'}
 
 \end{tabular}
 
 \begin{center}
-    Санкт-Петербург\\\
-
+    Санкт-Петербург${r'\\'}
     ${year}
 \end{center}
 
