@@ -1,7 +1,7 @@
 import os
 import json
 
-from uni.apps.report_creator.config import Config
+from uni.report_creator.config import Config
 from ._command import Command
 
 
@@ -25,7 +25,7 @@ class MakeReportCommand(Command):
         path = os.path.abspath(os.path.join(folder, dirname))
         self.line(f'Creating report at: <fg=green>{path}</>')
 
-        from uni.apps import ReportCreator
+        from uni.report_creator import ReportCreator
         rc = ReportCreator()
         config = self.make_config(path, name)
         rc.create_report(config)

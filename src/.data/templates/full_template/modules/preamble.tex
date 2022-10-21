@@ -8,6 +8,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[russian]{babel}  % пакет поддержки русского языка
 
+\usepackage{cite}  % bibliography. docs: https://texdoc.org/serve/cite.pdf/0
+
 \usepackage{indentfirst}  % отступ первого абзаца
 \setlength{\parindent}{0.75cm}
 
@@ -15,6 +17,7 @@
 % \titlespacing{\заголовок}{слева}{перед}{после}[справа]
 \titlespacing*{\section}{0.75cm}{1em}{0.1em}  % отступ заголовка
 \titlespacing*{\subsection}{0.75cm}{1em}{0.1em}
+\titlespacing*{\subsubsection}{0.75cm}{1em}{0.1em}
 
 %%%%%%%%%%%%%%%%%%%%% Pictures %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -41,26 +44,26 @@
 
 \lstdefinestyle{cpp}
 {
-    backgroundcolor=\color{backcolour},% цвет фона подсветки
+    backgroundcolor=\color{backcolour}, % цвет фона подсветки
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
-    numberstyle=\small\color{codegray},% размер шрифта для номеров строк
+    numberstyle=\small\color{codegray}, % размер шрифта для номеров строк
     stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize, % размер и начертание шрифта для подсветки кода
-    breakatwhitespace=false,           % переносить строки только если есть пробел  
-    breaklines=true,                   % автоматически переносить строки (да\нет)  
-    captionpos=t,                      % позиция заголовка вверху [t] или внизу [b]
+    basicstyle=\ttfamily\footnotesize,  % размер и начертание шрифта для подсветки кода
+    breakatwhitespace=false,            % переносить строки только если есть пробел
+    breaklines=true,                    % автоматически переносить строки (да\нет)
+    captionpos=t,                       % позиция заголовка вверху [t] или внизу [b]
     keepspaces=true,
-    numbers=left,                   % где поставить нумерацию строк (слева\справа)
-    numbersep=5pt,                  % как далеко отстоят номера строк от подсвечиваемого кода
-    showspaces=false,               % показывать или нет пробелы специальными отступами
-    showstringspaces=false,         % показывать или нет пробелы в строках
-    showtabs=false,                 % показывать или нет табуляцию в строках
-    tabsize=2,                      % размер табуляции по умолчанию равен 2 пробелам
-    language=c++,                   % выбор языка для подсветки (здесь это С++)
-    stepnumber=1,                   % размер шага между двумя номерами строк
-    frame=false,                    % рисовать рамку вокруг кода
-    escapeinside={\%*}{*)},         % если нужно добавить комментарии в коде
+    numbers=left,                       % где поставить нумерацию строк (слева\справа)
+    numbersep=5pt,                      % как далеко отстоят номера строк от подсвечиваемого кода
+    showspaces=false,                   % показывать или нет пробелы специальными отступами
+    showstringspaces=false,             % показывать или нет пробелы в строках
+    showtabs=false,                     % показывать или нет табуляцию в строках
+    tabsize=2,                          % размер табуляции по умолчанию равен 2 пробелам
+    language=c++,                       % выбор языка для подсветки (здесь это С++)
+    stepnumber=1,                       % размер шага между двумя номерами строк
+    frame=false,                        % рисовать рамку вокруг кода
+    escapeinside={\%*}{*)},             % если нужно добавить комментарии в коде
     extendedchars=\true
 }
 
@@ -124,7 +127,9 @@
 
 %%%%%%%%%%%%%%%%%%%%% Other %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{comment}
+\renewcommand\thefigure{\arabic{section}.\arabic{figure}}  % proper subsection pictures numbers
+\usepackage{tabularx}  % ???
+\usepackage{comment}  % многострочные комменты
 
 %\usepackage[showframe=true]{geometry} % shows the borders of the pages content
 \usepackage{changepage} % Для смещения таблиц влево

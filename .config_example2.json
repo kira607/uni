@@ -1,0 +1,27 @@
+{
+    "meta": {
+        "project_name": "report"
+    },
+    "document": {
+        "group": "0335",
+        "title": [
+            "ЛАБОРАТОРНАЯ РАБОТА №<N>",
+            "по дисциплине «<DISCIPLINE>»",
+            "Тема: <THEME>"
+        ],
+        "partners": null,
+        "teacher": "Перподов П.П.",
+        "year": null,
+        "chapters": {
+            "task": "Задание",
+            "solution": "Решение"
+        },
+        "new_page": true
+    },
+    "resources": {
+        "photo": true,
+        "resources": true,
+        "scripts": true,
+        "build_script": true
+    }
+}

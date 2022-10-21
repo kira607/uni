@@ -1,27 +1,13 @@
 import datetime
-import json
 import os
 from os.path import abspath, join
 
-from typing import Type
-from clikit.ui.components import Question, ChoiceQuestion
+from typing import Type, List, Optional, Dict
+from clikit.ui.components import Question
+from pydantic import BaseModel, Field, validator
+
 from uni.locations import data_folder
-
-class __MISSING(object):
-    def __str__(self):
-        return '_MISSING'
-
-    def __repr__(self):
-        return str(self)
-
-    def __copy__(self):
-        return self
-
-    def __deepcopy__(self):
-        return self
-
-
-_MISSING = __MISSING()
+from uni.utils import MISSING
 
 
 class MissingError(Exception):
@@ -138,8 +124,8 @@ class Config:
         self.newpage = self.get_value(data, 'newpage', self.newpage)
 
     def get_value(self, data, key, field):
-        value = data.get(key, _MISSING)
-        if value == _MISSING:
+        value = data.get(key, MISSING)
+        if value == MISSING:
             if field.optional:
                 return field.default
             raise MissingError(f'The config missing key: {key}')
@@ -159,6 +145,13 @@ class Config:
         self.newpage = True
         return self
 
+    @classmethod
+    def config_template(self):
+        t = {}
+        for field in self.fields():
+            t[field.name] = field.type()
+        return t
+
     def _get_sem(self):
         now = datetime.datetime.now()
         year = now.year
@@ -166,3 +159,34 @@ class Config:
         sem = (year - 2019) * 2
         sem -= 1 if  month >= 9 else 0
         return sem
+
+
+class Meta(BaseModel):
+    project_name: str
+
+
+class Document(BaseModel):
+    group: str
+    title: List[str]
+    partners: Optional[List[str]]
+    teacher: str
+    year: Optional[int]
+    chapters: Dict[str, str]
+    new_page: bool
+
+    @validator('year')
+    def set_name(cls, year: Optional[int]):
+        return year or datetime.datetime.now().year
+
+
+class Resources(BaseModel):
+    photo: bool
+    resources: bool
+    scripts: bool
+    build_script: bool
+
+
+class ProjectConfig(BaseModel):
+    meta: Meta = Field(...)
+    document: Document = Field(...)
+    resources: Resources = Field(...)

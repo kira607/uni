@@ -30,11 +30,9 @@
 \vspace*{\fill}
 
 \begin{tabular}{lcr}
-    ${student} гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А. ${r'\\\\'}
-    % for partner in partners:
-                      & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner} ${r'\\\\'}
-    % endfor
-    Преподаватель     & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} ${r'\\\\'}
+    ${student} гр. 9892 & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & Лескин К.А. ${r'\\\\'} % for partner in partners:
+                        & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${partner} ${r'\\\\'}  % endfor
+    Преподаватель       & \begin{tabular}{p{60mm}} \\ \hline \end{tabular} & ${teacher} ${r'\\\\'}
 
 \end{tabular}
 
