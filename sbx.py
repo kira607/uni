@@ -1,6 +1,7 @@
 import json
 
 from uni.report_creator.config import ProjectConfig
+from uni.cli.cli_app import UniCliApp
 
 
 example = '''{
