@@ -1,8 +1,23 @@
 default: 0335
-0335:
-  classes:
-    - circuitry
-    - marketing
-    - engineering_graphics
-    - comb_n_graphs
+profiles:
+  0335:
+    university: leti
+    group: 0335
+    signature: Лескин К.А.
+    classes:
+      circuitry:
+        name: Схемотехника
+        department: САПР
+        teacher: Соколов Ю.М.
+      marketing:
+        name: Маркетинг
+        department: ???
+      engineering_graphics:
+        name: Инженерная графика
+        department: ???
+      comb_n_graphs:
+        name: Комбинаторика и теория графов
+        department: ???
+
+
 
