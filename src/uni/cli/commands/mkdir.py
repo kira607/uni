@@ -1,4 +1,4 @@
-from cleo import option, argument
+from cleo.helpers import option, argument
 
 from uni.profile_manager import ProfileManager
 from ._command import Command
@@ -12,7 +12,7 @@ class MakeProjectDirCommand(Command):
     )
     options = (
         option('university', 'u', 'university of studying', flag=False),
-        option('group', 'g', 'studying group.', flag=False),
+        option('group', 'g', 'studying group', flag=False),
         option('semnumber', 's', 'semester number', flag=False),
         option('class', 'c', 'class', flag=False),
         option('worktype', 'w', 'work type (lab, cw, hw, tst)', flag=False),
@@ -24,13 +24,11 @@ class MakeProjectDirCommand(Command):
     )
 
     def handle(self):
-        profile = self.option('profile')
-
         data = {
             'university': self.option('university'),
             'group': self.option('group'),
             'semester_number': self.option('semnumber'),
-            'class': self.option('class'),
+            'class_': self.option('class'),
             'work_type': self.option('worktype'),
             'lastname': self.option('lastname'),
             'year': self.option('year'),
@@ -38,6 +36,7 @@ class MakeProjectDirCommand(Command):
             'theme': self.option('theme'),
         }
 
+        profile = self.option('profile')
         if profile:
             profile_data = self._load_profile(profile)
             data.update(profile_data)
@@ -73,5 +72,3 @@ class MakeProjectDirCommand(Command):
         loader = ProfileManager()
         profile = loader.load_profile(profile_name)
         return profile
-
-
