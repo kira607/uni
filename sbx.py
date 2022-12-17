@@ -1,6 +1,10 @@
 import json
+import shutil
+
+from pathlib import Path
 
 from uni.report_creator.config import ProjectConfig
+from uni.report_creator.resource import ResourceCreator
 from uni.cli import UniCliApp
 
 
@@ -85,10 +89,46 @@ def tree_stuff():
     print_tree(tree)
 
 
-def main():
+def cleanup(target: Path):
+    for item in target.iterdir():
+        item = Path(item)
+        if item.is_dir():
+            cleanup(item)
+            print(f'removing {item}')
+            shutil.rmtree(str(item))
+        else:
+            print(f'removing {item}')
+            item.unlink()
+
+
+def resources_sandbox():
+    t_area = Path('/home/kirill/programming/uni/testing_area')
+    target = Path(t_area, 'target')
     
+    # cleanup(target); exit(0)
+
+    resource_creator = ResourceCreator()
+
+    file_resource = resource_creator.create_resource(Path(t_area, 'test.txt'))
+    file_resource.deploy(target)
+
+    template_resource = resource_creator.create_resource(Path(t_area, 'test_template.txt.template'))
+    template_resource.deploy(target, data='substituted test data')
+
+    dir_resource = resource_creator.create_resource(Path(t_area, 'complex_resource'))
+    # dir_resource.add_sub_resource(FileResource(Path(t_area, 'complex_resource/test.txt')))
+    # dir_resource.add_sub_resource(TemplateResource(Path(t_area, 'complex_resource/test_template.txt.template')))
+    # dir_resource.add_sub_resource(IgnoredResource(Path(t_area, 'complex_resource/test.txt.ignored')))
+    dir_resource.deploy(target, data='substituted test data complex', **{'task1': 'Задача №#', 'task2': 'Задача №#'})
+
+
+def cli_sandbox():
     app = UniCliApp()
     app.run('-h')
+
+
+def main():
+    resources_sandbox()
 
 
 if __name__ == '__main__':
