@@ -1,6 +1,7 @@
 import json
 
 from uni.report_creator.config import ProjectConfig
+from uni.cli import UniCliApp
 
 
 example = '''{
@@ -57,27 +58,37 @@ def print_tree(root, tree, fold_level=0):
         print_tree(f'{skip*fold_level}{fold_string}{item}', subs, fold_level+1)
 
 
-def main():
-    print_tree('u.leti...', {
-        'modules': {
-            'chapters': {
-                'chapter1.tex': None,
-                'chapter2.tex': None,
+def tree_stuff():
+    tree = (
+        'u.leti...', 
+        {
+            'modules': {
+                'chapters': {
+                    'chapter1.tex': None,
+                    'chapter2.tex': None,
+                    '...': None,
+                },
+                'preamble.tex': None,
+                'title_page.tex': None,
+            },
+            'out': {
+                '<project_name>.pdf': None,
                 '...': None,
             },
-            'preamble.tex': None,
-            'title_page.tex': None,
-        },
-        'out': {
-            '<project_name>.pdf': None,
-            '...': None,
-        },
-        'photo': {'...': None},
-        'resources': {'...': None},
-        'scripts': {'...': None},
-        'build_report.sh': None,
-        '<project_name>.tex': None,
-    })
+            'photo': {'...': None},
+            'resources': {'...': None},
+            'scripts': {'...': None},
+            'build_report.sh': None,
+            '<project_name>.tex': None,
+        }
+    )
+    print_tree(tree)
+
+
+def main():
+    
+    app = UniCliApp()
+    app.run('-h')
 
 
 if __name__ == '__main__':
