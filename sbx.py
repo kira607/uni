@@ -121,6 +121,9 @@ def resources_sandbox():
     # dir_resource.add_sub_resource(IgnoredResource(Path(t_area, 'complex_resource/test.txt.ignored')))
     dir_resource.deploy(target, data='substituted test data complex', **{'task1': 'Задача №#', 'task2': 'Задача №#'})
 
+    root_resource = resource_creator.create_resource(Path(t_area, 'root.resource'))
+    root_resource.deploy(target, data='test data for root resource')
+
 
 def cli_sandbox():
     app = UniCliApp()

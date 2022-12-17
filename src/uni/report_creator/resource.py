@@ -14,6 +14,7 @@ class Resource(ABC):
 
     def __init__(self, path: Path) -> None:
         self.path = path
+        self.full_name = self.path.name
         self.name = self._get_name()
         self.children = set()
 
@@ -22,14 +23,17 @@ class Resource(ABC):
     
     def deploy(self, target_directory: Path, **kwargs) -> None:
         self._deploy(target_directory, **kwargs)
-        children_dir = Path(target_directory, self.name)
+        children_dir = self._get_children_dir(target_directory)
         for child in self.children:
             child.deploy(children_dir, **kwargs)
 
     def _get_name(self) -> str:
-        name = self.path.name
+        name = self.full_name
         name = name.replace(self.marker, '')
         return name
+
+    def _get_children_dir(self, target_directory: Path) -> Path:
+        return Path(target_directory, self.name)
 
     @abstractmethod
     def _deploy(self, target_directory: Path, **kwargs) -> None:
@@ -55,7 +59,7 @@ class TemplateResource(Resource):
             template = Template(f.read())
         rendered = template.render(**kwargs)
         target = Path(target_directory, self.name)
-        with target.open('w', encoding='utf-8') as f:
+        with open(str(target), 'w', encoding='utf-8') as f:
             f.write(rendered)
 
 
@@ -95,6 +99,25 @@ class ChaptersResource(Resource):
         return f'\\{sectioning}{{{content.replace("#", str(i))}}}'
 
 
+class RootResource(DirectoryResource):
+    '''
+    A directory resource.
+    
+    Deploys its children at target path, whithout creating a folder.
+    '''
+
+    marker = '.resource'
+
+    def _deploy(self, target_directory: Path, **kwargs) -> None:
+        pass
+
+    def _get_name(self) -> str:
+        return self.full_name
+
+    def _get_children_dir(self, target_directory: Path) -> Path:
+        return target_directory
+
+
 class ResourceCreator:
 
     _marker_to_resource = tuple(
@@ -120,7 +143,11 @@ class ResourceCreator:
         return FileResource(target)
 
     def _create_dir_resource(self, target: Path) -> Resource:
-        resource = DirectoryResource(target)
+        if str(target).endswith('.resource'):
+            resource = RootResource(target)
+        else:
+            resource = DirectoryResource(target)
+        
         for item in target.iterdir():
             sub = self.create_resource(item)
             resource.add_sub_resource(sub)
