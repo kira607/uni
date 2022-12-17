@@ -20,7 +20,7 @@ pip install -e path/to/uni/root
 Project structure goes as follows:
 
 ```
-u.leti...
+project_folder
 ├── modules
 |    ├── chapters
 |    |    ├── chapter1.tex
@@ -41,21 +41,70 @@ u.leti...
 └── <project_name>.tex
 ```
 
+### University repos naming:
+
+- u.
+- universety name (leti)
+- group (9892, 0335)
+- semester-year (\<N>sem-\<YYYY>)
+- class name (algo-and-ds, communications, etc.)
+- work signature:
+  - [help]-[lastname] - optional help tag and lastname of person I helped
+  - [N] work type (lab, hw, cw)
+- [work theme].
+
+Examples:
+
+- u.leti.9892.6sem-2022.algo-and-ds.1lab.rbtree
+- u.leti.0335.5sem-2022.engineering-drawing.cw
+- u.leti.9892.6sem-2022.algo-and-ds.help-evseeva-1lab.flow-network
+
+### Configuring profile
+
+`uni/src/.data/profiles.yaml`
+
+```yaml
+default:
+  universety: leti
+  group: 0335
+  semester: 5
+  year: 2022
+  classes:
+    5:
+      - algo-and-ds
+      - ...
+    6: 
+      - ...
+old:
+  universety: leti
+  group: 9892
+  semester: auto
+  year: auto
+  classes:
+    5:
+      - algo-and-ds
+      - ...
+    6: 
+      - ...
+```
+
+### Common case
+
 First, create a project directory with
-command `mkdir`.
+[`mkdir` command](#mkdir) and `cd` to it.
 
 ```bash
 $ uni mkdir
 ```
 
-Then cd to newly created folder
-Here create a config with `init` command.
+Here create a config with [`init` command](#init).
 
 ```bash
 $ uni init
 ```
 
-Adjust created configuration and run `deploy` command.
+Adjust created configuration and run 
+[`deploy` command](#deploy).
 
 ```bash
 $ uni deploy
@@ -63,30 +112,36 @@ $ uni deploy
 
 ## Commands
 
-### touch
+### mkdir
+
+Create a project directory.
 
 ```sh
-$> uni report <project_name>
+$> uni mkdir <universety> <group> <semester-number> <class> <work-type> [lastname] [year] [work-number] [theme] [profile]
 ```
 
-University repos naming:
+#### Args:
 
-- u.
-- universety name (leti)
-- group (9892, 0335)
-- semester-year (sem-2022)
-- class name (algo-and-ds, communications, etc.)
-- work signature:
-  - [help] - optional help tag
-  - work type (lab, hw, cw)
-  - [lastname] - optional lastname of person I helped
-- [work theme].
+#### Options:
 
-Examples:
+- `-u, --universety` - universety of studying.
+- `-g, --group` - studying group.
+- `-s, --semester-number` - semester number
+- `-c, --class` - class
+- `-w, --work-type` - work type (lab, cw, hw, tst)
+- `-l, --lastname=LASTNAME` - lastname of person to who helping
+- `-y, --year=YEAR` - year
+- `-n, --number=NUMBER` - work number (1, 2, 3...)
+- `-t, --theme=THEME` - theme of work
+- `-p, --profile=PROFILE` - a profile to use with set of pre-defined arguments.
 
-- u.leti.9892.6sem-2022.algo-and-ds.1lab.rbtree
-- u.leti.0335.5sem-2022.engineering-drawing.cw
-- u.leti.9892.6sem-2022.algo-and-ds.help-1lab-evseeva.flow-network
+### init
+
+Create a configuration file from template.
+
+```bash
+$ uni init [template]
+```
 
 #### Args:
 
@@ -96,7 +151,13 @@ the project.
 
 #### Options:
 
+### deploy
 
-### create
+#### Args:
 
-create report template at where you are right now.
+- _project_name_: The name of the project.
+This name will be applied to the main file in
+the project.
+
+#### Options:
+
