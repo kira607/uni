@@ -1,6 +1,6 @@
 from cleo import option, argument
 
-from uni.data_manager import ProfileManager
+from uni.profile_manager import ProfileManager
 from ._command import Command
 
 

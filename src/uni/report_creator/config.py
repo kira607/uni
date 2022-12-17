@@ -7,7 +7,7 @@ from clikit.ui.components import Question
 from pydantic import BaseModel, Field, validator
 
 from uni.locations import data_folder
-from uni.utils import MISSING
+from uni.utils.utils import MISSING
 
 
 class MissingError(Exception):
